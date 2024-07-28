@@ -21,11 +21,11 @@ const LogIn = () => {
   const [data, setData] = useState({ email: "", password: "" });
   const [warn, setWarn] = useState("");
   const router = useRouter();
-  const adminChecked = localStorage.getItem("adminChecked");
   const succesMsg = `You logged in successfully :)`;
-
+  
   useEffect(() => {
-    if (adminChecked) {
+      const adminChecked = localStorage.getItem("adminChecked");
+      if (adminChecked) {
       router.push("/dashboard");
     }
   });

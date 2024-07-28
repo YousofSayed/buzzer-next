@@ -30,12 +30,12 @@ const SignUp = () => {
     rePassword: "",
   });
   const router = useRouter();
-  const adminChecked = localStorage.getItem('adminChecked');
   const succesMsg = `You signed up successfully :)`;
 
-  useEffect(()=>{
-    if(adminChecked)router.push('dashboard');
-  })
+  useEffect(() => {
+    const adminChecked = localStorage.getItem("adminChecked");
+    if (adminChecked) router.push("dashboard");
+  });
 
   /**
    *
@@ -96,7 +96,7 @@ const SignUp = () => {
       <section>
         <div className="container m-auto flex flex-col justify-center items-center gap-4">
           <Title content={"Sign up as admin"} />
-         <Warn warn={warn} succesMsg={succesMsg}/>
+          <Warn warn={warn} succesMsg={succesMsg} />
 
           <form
             onSubmit={onSubmit}
@@ -135,7 +135,7 @@ const SignUp = () => {
           </form>
           <p className="text-gray-400">
             <Link href={"/dashboard/signup"}>
-              Do you have an account ? 
+              Do you have an account ?
               <span className="text-[#FFBB15] font-bold">Login</span>
             </Link>
           </p>

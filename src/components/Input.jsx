@@ -4,12 +4,13 @@ import { transformToNumInput } from "@/app/cocktail";
 
 /**
  * 
- * @param {{placeholder:string , isNum:boolean , onInput : (ev:FormEvent)=>void}} param0 
+ * @param {{placeholder:string , isNum:boolean , onInput : (ev:FormEvent)=>void , value:string}} param0 
  * @returns 
  */
-export function Input  ({ placeholder, isNum = true, onInput = () => {} })  {
+export function Input  ({ placeholder, isNum = true, onInput = () => {} ,value='' })  {
   return (
     <input
+    value={value || ''}
       onInput={(ev) => {
         isNum && transformToNumInput(ev.target);
         onInput(ev);
