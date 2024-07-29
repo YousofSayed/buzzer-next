@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { Title } from "@/components/Title";
+import { CenterHeader } from "@/components/CenterHeader";
 
 const auth = getAuth(app);
 
@@ -58,18 +59,12 @@ export default function SignUp() {
   }
 
   return (
-    <main>
-      <header className="py-3">
-        <div className="container m-auto">
-          <figure>
-            <img src="/logo.png" className="w-[100px] max-h-[100px]" alt="" />
-          </figure>
-        </div>
-      </header>
+    <main className="flex justify-center items-center flex-col">
+     <CenterHeader/>
 
       <section className="">
-        <div className="container m-auto flex justify-between items-center">
-          <div className="flex flex-col gap-[25px] w-[50%] max-w-[400px]">
+        <div className="container m-auto flex justify-between items-center max-[512px]:flex-col">
+          <div className="flex flex-col gap-[25px] w-[50%] min-[512px]:max-w-[400px] max-[512px]:w-full max-[512px]:justify-center max-[512px]:items-center">
             <Title content='Welcome'/>
             <p className="text-[#868686]">Enter your phone number</p>
             <Input
@@ -77,18 +72,18 @@ export default function SignUp() {
                 setPhoneNumber(ev.target.value);
               }}
             />
-            {/* <div  id="recaptcha-container" className=" recaptcha-container"></div> */}
+
             <button
             ref={recaptchaContainer}
               id="sign-in-btn"
               onClick={sendCode}
-              className="border-[1.5px] bg-[#FFBB15] text-white rounded-md p-3 text-[#FFBB15] font-bold"
+              className="border-[1.5px] w-full bg-[#FFBB15] text-white rounded-md p-3  font-bold"
             >
               Next
             </button>
           </div>
 
-          <figure className=" ">
+          <figure className="max-[512px]:hidden ">
             <img src="/av1.png" className="max-h-[450px]" alt="" />
           </figure>
         </div>

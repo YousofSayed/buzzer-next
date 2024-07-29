@@ -17,7 +17,7 @@ export function Input  ({ placeholder, isNum = true, onInput = () => {} ,value='
       }}
       type="text"
       placeholder={placeholder || "Phone Number"}
-      className="p-3 rounded-md outline-none border-[1.5px] border-slate-400 text-black"
+      className="p-3 w-full rounded-md outline-none border-[1.5px] border-slate-400 text-black"
     />
   );
 };
