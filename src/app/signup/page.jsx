@@ -62,7 +62,7 @@ export default function SignUp() {
      <CenterHeader/>
 
       <section className="">
-        <div className="container m-auto flex justify-evenly items-center max-[512px]:flex-col">
+        <div className="container m-auto flex justify-evenly items-center max-[512px]:flex-col px-3">
           <div className="flex flex-col gap-4 w-[50%] min-[512px]:max-w-[400px] max-[512px]:w-full max-[512px]:justify-center max-[512px]:items-center">
             <Title content='Welcome'/>
             <Warn warn={warn}/>
