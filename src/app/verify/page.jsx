@@ -27,7 +27,7 @@ const Verify = () => {
 
       <section className="">
         <div className="container m-auto flex justify-evenly items-center px-3">
-          <div className="flex flex-col gap-[25px] min-[612px]:w-[50%] max-w-[400px] max-[612px]:w-full">
+          <div className="flex flex-col gap-[25px] min-[612px]:w-[50%] max-w-[400px] max-[612px]:w-full max-[612px]:justify-center max-[612px]:items-center ">
             <Title content={'Welcome Again'} />
             <p className="text-[#868686]">Enter verfication code number</p>
             <Input
