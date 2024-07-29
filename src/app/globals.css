@@ -17,3 +17,11 @@
 .click{
     animation: click-anim .3s linear;
 }
+
+.custom-grid-col{
+    grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+}
+
+.overlay{
+    background-color: rgba(23, 26, 31, 0.5);
+}

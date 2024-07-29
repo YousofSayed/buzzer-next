@@ -6,7 +6,16 @@ import { Input } from "@/components/Input";
 import { useRouter } from "next/navigation";
 import { app } from "../firebaseConfig";
 import { Title } from "@/components/Title";
-import { getDatabase, ref, child, get, update } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  child,
+  get,
+  update,
+  orderByChild,
+  query,
+  equalTo,
+} from "firebase/database";
 import { uniqueID } from "../cocktail";
 import { Warn } from "@/components/Warn";
 
@@ -30,11 +39,19 @@ function Dashboard() {
 
   useEffect(() => {
     const admin = JSON.parse(localStorage.getItem("admin")) || {};
-    setUserName(admin.email?.match(/\w+/gi)[0]);
+    setUserName(admin.email?.match(/\w+/gi)[0] || "");
     if (!admin.uid) {
       router.push("/dashboard/login");
       return;
     }
+    // window.addEventListener("click", async () => {
+    //   const q = query(
+    //     ref(db , "products/"),
+    //     orderByChild("category"),
+    //     equalTo("apps"),
+    //   );
+    //   console.log((await get(q)).val());
+    // });
     (async () => {
       const adminFromDb = await get(child(ref(db), `admins/${admin.uid}`));
       const userCredential = adminFromDb.val();
@@ -58,31 +75,44 @@ function Dashboard() {
    * @returns
    */
   const getLocalImage = async (ev) => {
-    const key = "6bc0aad40997a4f674eec8247cd9d769";
-    const img = ev.target.files[0];
-    const imageData = new FormData();
-    imageData.append("image", img);
-    imageData.append("key", key);
-    const reader = new FileReader();
-    reader.readAsDataURL(img);
-    reader.addEventListener("loadend", () => {
-      image.current.src = reader.result;
-    });
-    const url = `https://api.imgbb.com/1/upload`;
-    const res = await fetch(url, {
-      method: "POST",
-      body: imageData,
-    });
-    setProductData({ ...productData, img: await (await res.json()).data.url });
+    try {
+        const key = "6bc0aad40997a4f674eec8247cd9d769";
+        const img = ev.target.files[0];
+        const imageData = new FormData();
+        imageData.append("image", img);
+        imageData.append("key", key);
+        const reader = new FileReader();
+        reader.readAsDataURL(img);
+        reader.addEventListener("loadend", () => {
+          image.current.src = reader.result;
+        });
+        const url = `https://api.imgbb.com/1/upload`;
+        const res = await fetch(url, {
+          method: "POST",
+          body: imageData,
+        });
+        const response = await res.json();
+        setProductData({ ...productData, img: await response.data.url });
+        console.log(response);
+    } catch (error) {
+        
+        setWarn('Image format don’t supported');
+    }
+    
   };
 
   /**
-   * 
-   * @param {string} category 
+   *
+   * @param {string} category
    */
   const setProductInDB = (category) => {
-    update(ref(db, `categories/${category.toLowerCase()}/products/${uniqueID()}`), {
+    update(ref(db, `products/${uniqueID()}`), {
       ...productData,
+      category: productData.category.toLowerCase(),
+    });
+
+    update(ref(db, `categories/${category.toLowerCase()}`), {
+      name: productData.productName,
     });
   };
 
@@ -90,13 +120,15 @@ function Dashboard() {
     try {
       setProductInDB(productData.category);
       for (const key in productData) {
+        if (key == "salePrice") continue;
         if (!productData[key]) {
-            setWarn(`${key} field must not be empty !`)
-           return;
+          setWarn(`${key} field must not be empty !`);
+          return;
         }
       }
       setWarn(successMsg);
       setProductData(productSchema);
+      image.current.src = '';
     } catch (error) {
       setWarn("Product uploading faild :(");
       console.error(error);
@@ -109,7 +141,7 @@ function Dashboard() {
     <main>
       <CenterHeader />
       <div className="container m-auto px-3">
-        <Warn warn={warn} succesMsg={successMsg} /> 
+        <Warn warn={warn} succesMsg={successMsg} />
       </div>
       <section className="pt-[30px] ">
         <div className="container m-auto flex max-[512px]:flex-col-reverse gap-3 p-3 ">
@@ -135,7 +167,6 @@ function Dashboard() {
                   regualrPrice: ev.target.value,
                 })
               }
-         
               placeholder={"Enter regular price"}
             />
             <Input
@@ -143,7 +174,6 @@ function Dashboard() {
               onInput={(ev) =>
                 setProductData({ ...productData, salePrice: ev.target.value })
               }
-         
               placeholder={"Enter sale price"}
             />
             <Input
@@ -177,7 +207,7 @@ function Dashboard() {
                 alt="add product"
               />
               <input
-              accept=".png , .jpg , .jpeg"
+                accept=".png , .jpg , .jpeg"
                 ref={inputFile}
                 onChange={getLocalImage}
                 type="file"
