@@ -60,7 +60,7 @@ function Dashboard() {
       } else {
         alert("Fuck you , do not play in my localstorage 👊😡");
         localStorage.removeItem("admin");
-        router.push(`/dashboard/login`);
+        router.push(`dashboard/login`);
       }
     })();
   }, []);

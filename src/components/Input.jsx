@@ -10,7 +10,7 @@ import { transformToNumInput } from "@/app/cocktail";
 export function Input  ({ placeholder, isNum = true, onInput = () => {} ,value='' })  {
   return (
     <input
-    value={value || ''}
+    // value={value || ''}
       onInput={(ev) => {
         isNum && transformToNumInput(ev.target);
         onInput(ev);

@@ -1,8 +1,6 @@
 "use client";
-import { makeItResponsive } from "@/utils/function";
 import { useEffect, useState } from "react";
 import { app } from "./firebaseConfig";
-import { makeAppResponsive } from "./cocktail";
 import { CenterHeader } from "@/components/CenterHeader";
 import {
   child,
@@ -14,26 +12,27 @@ import {
   query,
   ref,
 } from "firebase/database";
+import { Button } from "@/components/Button";
+import { useRouter } from "next/navigation";
 
 let selectedCategories = [];
-const categoriesFetched = {};
 const productsByCategory = {};
 let firstLoad = false;
 
 export default function Home() {
   const [categories, setCategories] = useState([]);
-  // const [selectedCategories, setSelectedCategories] = useState([]);
   const [products, setProducts] = useState({});
+  const router = useRouter();
   const db = getDatabase(app);
 
   useEffect(() => {
+    if(!localStorage.getItem('user'))router.push('signup');
     getCategories();
     getAllProducts(20);
   }, []);
 
   const getCategories = async () => {
     const ctgr = Object.keys((await get(child(ref(db), "/categories"))).val());
-    console.log(ctgr);
     setCategories(ctgr);
   };
 
@@ -58,7 +57,6 @@ export default function Home() {
 
     if (checked) {
       selectedCategories.push(val);
-      console.log(selectedCategories);
       let prods = {};
       for (const category of selectedCategories) {
         if (productsByCategory[category]) {
@@ -77,7 +75,6 @@ export default function Home() {
       selectedCategories = selectedCategories.filter(
         (category) => category != val
       );
-      console.log(selectedCategories);
       if (!selectedCategories[0]) setProducts({});
       let prods = {};
       for (const category of selectedCategories) {
@@ -101,9 +98,9 @@ export default function Home() {
         </section>
       </section>
 
-      <section className="h-[600px] w-full py-[60px] px-3 flex justify-between">
+      <section className="h-[600px] w-full py-[60px] px-3 flex justify-between max-[612px]:flex-col max-[612px]:gap-2">
         {/* <div className="container h-full m-auto "> */}
-        <nav className="border-[1.5px] h-full border-gray-400 rounded w-[300px]">
+        <nav className="border-[1.5px] h-full border-gray-400 rounded w-[300px] max-[612px]:w-full">
           <h1 className="text-[#FFBB15] font-bold p-3">Categories : </h1>
           {categories.map((category, i) => (
             <div key={i} className="flex justify-between items-center p-3">
@@ -120,16 +117,17 @@ export default function Home() {
           ))}
         </nav>
 
-        <section className="border-[1.5px] h-full overflow-x-auto border-gray-400 grid custom-grid-col p-3 gap-3 rounded w-[calc(100%-320px)]">
+        <section className="border-[1.5px] h-full min-[612px]:overflow-x-auto border-gray-400 grid custom-grid-col p-3 gap-3 rounded w-[calc(100%-320px)] max-[612px]:w-full max-[612px]:h-fit">
           {Object.keys(products).map((key, i) => {
             return (
-              <div key={i} className="border-[1.5px] h-[230px] flex flex-col p-3 items-center justify-between rounded-lg border-gray-400">
+              <div key={i} className="border-[1.5px] h-[280px] flex flex-col p-3 items-center justify-between rounded-lg border-gray-400">
                 <figure>
                   <img className="w-[100px] max-h-[100px]" src={products[key].img} alt="" />
                 </figure>
                 <p className="text-[#FFBB15] font-bold">{products[key].productName}</p>
                 <p className="text-gray-600 text-center text-[14px] font-medium">{products[key].desc}</p>
                 <p className="text-gray-600 font-bold">{products[key].regualrPrice} EGP</p>
+                <Button content="Add" fill={true}/>
               </div>
             );
           })}

@@ -1,5 +1,5 @@
 "use client";
-import { addClickClass, stringify } from "@/app/cocktail";
+import { addClickClass, makeAppResponsive, stringify } from "@/app/cocktail";
 import { app } from "@/app/firebaseConfig";
 import { Button } from "@/components/Button";
 import { CenterHeader } from "@/components/CenterHeader";
@@ -24,11 +24,12 @@ const LogIn = () => {
   const succesMsg = `You logged in successfully :)`;
   
   useEffect(() => {
+    makeAppResponsive('main')
       const adminChecked = localStorage.getItem("adminChecked");
       if (adminChecked) {
       router.push("/dashboard");
     }
-  });
+  },[]);
 
   const onInput = (ev, key) => {
     setWarn("");
@@ -66,7 +67,7 @@ const LogIn = () => {
   };
 
   return (
-    <main>
+    <main className="flex flex-col justify-center items-center">
       <CenterHeader />
       <section>
         <div className="container m-auto flex flex-col justify-center items-center gap-4">
@@ -78,10 +79,10 @@ const LogIn = () => {
             className="flex flex-col gap-3 min-w-[300px]"
           >
             <Input
+                isNum={false}
               onInput={(ev) => {
                 onInput(ev, "email");
               }}
-              isNum={false}
               placeholder="Enter Your Email..."
             />
             <Input

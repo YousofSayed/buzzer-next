@@ -14,7 +14,7 @@ export function Button({ id, onClick = () => {}, content = "", fill = false }) {
         addClickClass(ev.target, "click");
         onClick(ev);
       }}
-      className={`border-[1.5px] border-[#FFBB15] rounded-md p-3  ${
+      className={`border-[1.5px] w-full border-[#FFBB15] rounded-md p-3  ${
         fill ? "bg-[#FFBB15] text-[#fff]" : "bg-[#fff] text-[#FFBB15]"
       } font-bold`}
     >

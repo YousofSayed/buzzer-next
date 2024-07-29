@@ -9,16 +9,14 @@ import {
   RecaptchaVerifier,
 } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { stringify } from "../cocktail";
+import { Title } from "@/components/Title";
 
 const auth = getAuth(app);
 
-// import
 
 export default function SignUp() {
   const router = useRouter();
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [verf , setVerf] = useState();
   const recaptchaContainer = useRef();
 
   useEffect(() => {
@@ -26,8 +24,6 @@ export default function SignUp() {
    if(recaptchaContainer.current){
     console.log('verf done');
     
-    // setVerf(appVerf)
-    // appVerf.render();
    }
   }, []);
 
@@ -49,12 +45,7 @@ export default function SignUp() {
     signInWithPhoneNumber(auth, `+2${phoneNumber}`,appVerf)
     .then((confirmationResult) => {
       window.confirmationResult = confirmationResult;
-      // confirmationResult.confirm().then(res=>{
-      //   router.push('/');
-      //   localStorage.setItem('user',stringify(res.user));
-      // }).catch((err)=>{
-      //   console.log(err);
-      // })
+   
       console.log( 'message sent');
       router.push('/verify')
       
@@ -79,7 +70,7 @@ export default function SignUp() {
       <section className="">
         <div className="container m-auto flex justify-between items-center">
           <div className="flex flex-col gap-[25px] w-[50%] max-w-[400px]">
-            <h1 className="text-xl font-bold">Welcome</h1>
+            <Title content='Welcome'/>
             <p className="text-[#868686]">Enter your phone number</p>
             <Input
               onInput={(ev) => {
@@ -91,7 +82,7 @@ export default function SignUp() {
             ref={recaptchaContainer}
               id="sign-in-btn"
               onClick={sendCode}
-              className="border-[1.5px] border-[#FFBB15] rounded-md p-3 text-[#FFBB15] font-bold"
+              className="border-[1.5px] bg-[#FFBB15] text-white rounded-md p-3 text-[#FFBB15] font-bold"
             >
               Next
             </button>

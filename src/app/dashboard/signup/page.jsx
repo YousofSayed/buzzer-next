@@ -4,6 +4,7 @@ import {
   isValidName,
   isValidPassword,
   isValidRePassword,
+  makeAppResponsive,
   stringify,
 } from "@/app/cocktail";
 import { Button } from "@/components/Button";
@@ -33,9 +34,10 @@ const SignUp = () => {
   const succesMsg = `You signed up successfully :)`;
 
   useEffect(() => {
+    makeAppResponsive('main')
     const adminChecked = localStorage.getItem("adminChecked");
     if (adminChecked) router.push("dashboard");
-  });
+  },[]);
 
   /**
    *
@@ -91,7 +93,7 @@ const SignUp = () => {
     setData({ ...data, [key]: ev.target.value });
   };
   return (
-    <main>
+    <main className="flex flex-col justify-center items-center">
       <CenterHeader />
       <section>
         <div className="container m-auto flex flex-col justify-center items-center gap-4">
@@ -134,9 +136,9 @@ const SignUp = () => {
             <Button content="Signup" fill={true} />
           </form>
           <p className="text-gray-400">
-            <Link href={"/dashboard/signup"}>
+            <Link href={"/dashboard/login"}>
               Do you have an account ?
-              <span className="text-[#FFBB15] font-bold">Login</span>
+              <span className="text-[#FFBB15] font-bold"> Login</span>
             </Link>
           </p>
         </div>
