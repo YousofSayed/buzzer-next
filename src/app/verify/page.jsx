@@ -27,7 +27,7 @@ const Verify = () => {
 
       <section className="">
         <div className="container m-auto flex justify-evenly items-center px-3">
-          <div className="flex flex-col gap-[25px] w-[50%] max-w-[400px]">
+          <div className="flex flex-col gap-[25px] min-[612px]:w-[50%] max-w-[400px] max-[612px]:w-full">
             <Title content={'Welcome Again'} />
             <p className="text-[#868686]">Enter verfication code number</p>
             <Input
@@ -40,7 +40,7 @@ const Verify = () => {
             <Button onClick={confirmCode} content="Verify" fill={true}/>
           </div>
 
-          <figure className=" ">
+          <figure className="max-[612px]:hidden ">
             <img src="/av2.png" className="max-h-[450px]" alt="" />
           </figure>
         </div>
