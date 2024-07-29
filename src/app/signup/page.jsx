@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import { Title } from "@/components/Title";
 import { CenterHeader } from "@/components/CenterHeader";
+import { Warn } from "@/components/Warn";
 
 const auth = getAuth(app);
 
@@ -19,13 +20,10 @@ export default function SignUp() {
   const router = useRouter();
   const [phoneNumber, setPhoneNumber] = useState("");
   const recaptchaContainer = useRef();
+  const [warn , setWarn] = useState('');
 
   useEffect(() => {
     makeItResponsive();
-   if(recaptchaContainer.current){
-    console.log('verf done');
-    
-   }
   }, []);
 
   function sendCode() {
@@ -52,6 +50,7 @@ export default function SignUp() {
       
     })
     .catch((error) => {
+      setWarn(`Firebase Auth Issue :(`)
       console.error('fuckkkkk' , error);
     });
     
@@ -64,8 +63,9 @@ export default function SignUp() {
 
       <section className="">
         <div className="container m-auto flex justify-evenly items-center max-[512px]:flex-col">
-          <div className="flex flex-col gap-[25px] w-[50%] min-[512px]:max-w-[400px] max-[512px]:w-full max-[512px]:justify-center max-[512px]:items-center">
+          <div className="flex flex-col gap-4 w-[50%] min-[512px]:max-w-[400px] max-[512px]:w-full max-[512px]:justify-center max-[512px]:items-center">
             <Title content='Welcome'/>
+            <Warn warn={warn}/>
             <p className="text-[#868686]">Enter your phone number</p>
             <Input
               onInput={(ev) => {
