@@ -59,11 +59,11 @@ export default function SignUp() {
   }
 
   return (
-    <main className="flex justify-center items-center flex-col">
+    <main className="flex justify-center  flex-col">
      <CenterHeader/>
 
       <section className="">
-        <div className="container m-auto flex justify-between items-center max-[512px]:flex-col">
+        <div className="container m-auto flex justify-evenly items-center max-[512px]:flex-col">
           <div className="flex flex-col gap-[25px] w-[50%] min-[512px]:max-w-[400px] max-[512px]:w-full max-[512px]:justify-center max-[512px]:items-center">
             <Title content='Welcome'/>
             <p className="text-[#868686]">Enter your phone number</p>
